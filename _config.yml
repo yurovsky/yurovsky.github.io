@@ -6,14 +6,13 @@ pygments:         true
 permalink:        pretty
 
 # Setup
-title:            Poole
-tagline:          The Jekyll Butler
-url:              http://getpoole.com
+title:            /var/log/andrey
+tagline:          Andrey Yurovsky's blog
+url:              http://yurovsky.github.io
 paginate:         1
 author:
-  name:           Mark Otto
-  url:            https://twitter.com/mdo
-  email:          markdotto@gmail.com
+  name:           Andrey Yurovsky
+  email:          yurovsky@gmail.com
 
 # Custom vars
 version:          1.0.0
