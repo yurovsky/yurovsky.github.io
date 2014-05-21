@@ -11,9 +11,9 @@ unfortunately tried to use [Google+](https://plus.google.com/u/0/+AndreyYurovsky
 feature-limited, all you can really do is bold things.
 
 
-That brings me to this, github's pages feature and Jekyll for static-content blogging.  Now I can include code snippets,
+That brings me to this, github's pages feature and [Jekyll](http://jekyllrb.com/) for static-content blogging.  Now I can include code snippets,
 diagrams, links, and whatever, I can use disqus for comments, and I can control the look and feel while managing the whole
-thing in git and editing with vi or online via github's built-in text editor.  Awesome!
+thing in git and editing with vi or online via github's built-in text editor.  I used [poole](http://getpoole.com/) to set things up so I didn't even have to deal with ruby stuff.  Awesome!
 
 ### GNU tools
 
