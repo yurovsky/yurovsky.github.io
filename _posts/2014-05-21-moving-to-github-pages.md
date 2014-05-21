@@ -5,9 +5,11 @@ title: Moving to github pages
 
 I've tried a few 'blog' approaches over the years and haven't found what I was looking for, namely simple hosting 
 with enough low-level editing capability to include code snippets and diagrams while having some kind of commenting system.
+
 I first used Google's blogger service but the editor and syntax were terrible and nothing ever looked right.  I then
-unfortunately tried to use Google+ as a blog and that definitely doesn't work -- its editor is awful and it's extremely
+unfortunately tried to use [Google+](https://plus.google.com/u/0/+AndreyYurovsky/posts) as a blog and that definitely doesn't work -- its editor is awful and it's extremely
 feature-limited, all you can really do is bold things.
+
 
 That brings me to this, github's pages feature and Jekyll for static-content blogging.  Now I can include code snippets,
 diagrams, links, and whatever, I can use disqus for comments, and I can control the look and feel while managing the whole
