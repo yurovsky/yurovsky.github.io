@@ -33,6 +33,7 @@ I've been involved in a few openocd improvements over the past year or so,
 ### Next
 
 I have a few things planned with regard to openocd.  My TODO list includes:
+
 * adding SWO trace support for Atmel's EDBG adapter.  This is actually quite easy but now that there are two trace-capable adapters (STLinkv2 and EDBG), I need to find a reasonable way to integrate general "tracing" functionality into openocd and hook them up to that.
 * helping with the TMS570-related changes that are coming in.
 * helping to test the SWD reorganization changes and other ARM stuff, including an attempt at supporting SWD on JLink adapters.
