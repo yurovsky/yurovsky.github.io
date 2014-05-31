@@ -87,7 +87,8 @@ To use the Logic16, your C++ application simply needs to:
 * join the worker thread, there's nothing further to do in main()
 
 I tried implementing the worker thread using pthread (pass -pthread as one of
-the CFLAGS if you want to do that) and then used the "new" C++11 std::thread in
+the CFLAGS if you want to do that) and then used the "new" C++11
+[std::thread](http://en.cppreference.com/w/cpp/thread/thread) in
 its place, either way works fine.  You can use std::queue or a list or some
 other approach to buffer up data for the worker thread but whatever you choose
 should be thread-safe since you're dealing with an asynchronous producer and a
@@ -120,6 +121,9 @@ mention a few things:
   it may be anything (the documentation says that it's roughly a 20Hz rate of
   block retrieval, so whatever number of bytes that comes out to given your
   chosen sampling rate).
+* [std::bitset](http://www.cplusplus.com/reference/bitset/bitset/) makes
+  printing bits (either for debugging or as part of the output of your program)
+  quite easy.
 
 Of course with this "raw" API, you're responsible for making sense of the data,
 "triggering", and so on.  You can implement that with a fairly simple state
