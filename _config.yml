@@ -9,7 +9,6 @@ permalink:        pretty
 title:            /var/log/andrey
 tagline:          Andrey Yurovsky's blog
 url:              http://yurovsky.github.io
-baseurl:          /
 author:
   name:           Andrey Yurovsky
   email:          yurovsky@gmail.com
