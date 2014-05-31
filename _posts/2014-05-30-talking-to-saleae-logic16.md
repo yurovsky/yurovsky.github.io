@@ -89,7 +89,7 @@ To use the Logic16, your C++ application simply needs to:
 I tried implementing the worker thread using pthread (pass `-pthread` as one of
 the `CFLAGS` if you want to do that) and then used the "new" C++11
 [std::thread](http://en.cppreference.com/w/cpp/thread/thread) in
-its place, either way works fine.  You can use std::queue or a list or some
+its place, either way works fine.  You can use [std::queue](http://www.cplusplus.com/reference/queue/queue/) or [std::list](http://www.cplusplus.com/reference/list/list/) or some
 other approach to buffer up data for the worker thread but whatever you choose
 should be thread-safe since you're dealing with an asynchronous producer and a
 consumer who are using the same queue.  pthread provides mutexes and semaphores
