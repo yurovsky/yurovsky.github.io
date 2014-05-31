@@ -7,6 +7,8 @@ title: About
 My name is Andrey Yurovsky, I'm an embedded software engineer living in Seattle.
 </p>
 
+![Here's a photo](/assets/me.jpg)
+
 ## Links
 
 * My [LinkedIn profile](https://www.linkedin.com/in/andreyyurovsky)
