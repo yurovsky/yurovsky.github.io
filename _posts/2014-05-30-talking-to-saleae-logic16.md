@@ -84,10 +84,10 @@ To use the Logic16, your C++ application simply needs to:
   to process it.  The worker should then free that memory by calling the
   provided `DeleteU8ArrayPtr()` method.
 * call `BeginConnect()` to connect to a Logic16
-* join the worker thread, there's nothing further to do in main()
+* join the worker thread, there's nothing further to do in `main()`
 
-I tried implementing the worker thread using pthread (pass -pthread as one of
-the CFLAGS if you want to do that) and then used the "new" C++11
+I tried implementing the worker thread using pthread (pass `-pthread` as one of
+the `CFLAGS` if you want to do that) and then used the "new" C++11
 [std::thread](http://en.cppreference.com/w/cpp/thread/thread) in
 its place, either way works fine.  You can use std::queue or a list or some
 other approach to buffer up data for the worker thread but whatever you choose
