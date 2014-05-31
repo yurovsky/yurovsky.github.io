@@ -99,11 +99,11 @@ The Saleae API is a bit crufty and misses some common best practices but is
 otherwise functional and well-documented in its header file.  I would like to
 mention a few things:
 
-* You may ignore the SALEAE_DEVICE_API and __stdcall cruft that you see in
+* You may ignore the `SALEAE_DEVICE_API` and `__stdcall` cruft that you see in
   SaleaeDeviceApi.h and their sample application.
-* SetSampleRateHz() must have a valid sample rate passes to it, otherwise the
+* `SetSampleRateHz()` must have a valid sample rate passes to it, otherwise the
   program proceeds and then segfaults.
-* SetActiveChannels() takes a pointer to an array and a number of elements.
+* `SetActiveChannels()` takes a pointer to an array and a number of elements.
   Although it's not marked const, that array seems to be copied or otherwise
   used safely so a stack variable is acceptable.  You must use this array to
   map what channels are active (and their order in the bitmask you get back in
