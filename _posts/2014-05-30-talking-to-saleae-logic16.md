@@ -70,20 +70,20 @@ Saleae's library:
 To use the Logic16, your C++ application simply needs to:
 
 * register handlers for connection and disconnection via the
-  RegisterOnConnect() and RegisterOnDisconnect() methods.  The OnConnect
-  handler should use RegisterOnReadData() to register a handler for incoming
+  `RegisterOnConnect()` and `RegisterOnDisconnect()` methods.  The OnConnect
+  handler should use `RegisterOnReadData()` to register a handler for incoming
   data and you may want to register an error handler as well via
-  RegisterOnError().  Finally, the OnConnect handler should configure the
+  `RegisterOnError()`.  Finally, the OnConnect handler should configure the
   channels you wish to sample via SetActiveChannels(), set the sample rate
-  via SetSampleRateHz(), and use ReadStart() to begin recording.
+  via `SetSampleRateHz()`, and use `ReadStart()` to begin recording.
 * spin up a worker thread to deal with data from the logic analyzer.  A pointer
   to the incoming data buffer will be provided to your OnReadData handler,
   however that handler shouldn't process the data in place (and depending on
   how high your sampling rate is, it can be several megabytes of data).  The
   handler should instead queue that pointer up and signal to the worker thread
   to process it.  The worker should then free that memory by calling the
-  provided DeleteU8ArrayPtr() method.
-* call BeginConnect() to connect to a Logic16
+  provided `DeleteU8ArrayPtr()` method.
+* call `BeginConnect()` to connect to a Logic16
 * join the worker thread, there's nothing further to do in main()
 
 I tried implementing the worker thread using pthread (pass -pthread as one of
