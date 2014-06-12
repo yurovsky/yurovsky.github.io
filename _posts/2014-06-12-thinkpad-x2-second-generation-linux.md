@@ -64,8 +64,10 @@ To update the BIOS:
    bootable image from the ISO file you downloaded.  For example, if your file
    is called "foo.iso", you can:
 
-      wget http://www.uni-koblenz.de/~krienke/ftp/noarch/geteltorito/geteltorito.pl
-      perl geteltorito.pl foo.iso > biosimage.iso
+
+    wget http://www.uni-koblenz.de/~krienke/ftp/noarch/geteltorito/geteltorito.pl
+    perl geteltorito.pl foo.iso > biosimage.iso
+
 
    The resulting ISO image needs to be written to a USB disk.  Insert a disk
    that you can erase and unmount it.  Then use `dd` to copy the ISO
