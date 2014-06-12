@@ -64,16 +64,16 @@ To update the BIOS:
    bootable image from the ISO file you downloaded.  For example, if your file
    is called "foo.iso", you can:
 
-    wget http://www.uni-koblenz.de/~krienke/ftp/noarch/geteltorito/geteltorito.pl
-    perl geteltorito.pl foo.iso > biosimage.iso
+      wget http://www.uni-koblenz.de/~krienke/ftp/noarch/geteltorito/geteltorito.pl
+      perl geteltorito.pl foo.iso > biosimage.iso
 
    The resulting ISO image needs to be written to a USB disk.  Insert a disk
    that you can erase and unmount it.  Then use `dd` to copy the ISO
    image to it.  For example, if your USB disk is drive `/dev/sdb`,
 
-    sudo umount /dev/sdb1
-    sudo dd if=biosimage.img of=/dev/sdb
-    sudo eject /dev/sdb
+      sudo umount /dev/sdb1
+      sudo dd if=biosimage.img of=/dev/sdb
+      sudo eject /dev/sdb
 
    should work.
 3. Now reboot the laptop and use F12 to select the USB disk as the boot disk.
