@@ -17,7 +17,7 @@ I must admit that, given the relative newness of the laptop at the time of
 writing, I went ahead and installed the 3.15 kernel right away.  It may be that
 driver support (for example for the various new hotkeys on this laptop) has
 improved from 3.13.  If you would like to do that too, just download the amd64
-headers and image packages from the [Ubuntu mainline kernel PPA](http://kernel.ubuntu.com/~kernel-ppa/mainline/) and install them by passing both files to
+headers and image packages from the [Ubuntu mainline kernel PPA](http://kernel.ubuntu.com/~kernel-ppa/mainline/v3.15-utopic) and install them by passing both files to
 `sudo dpkg -i` and then reboot.
 
 ## Issues
