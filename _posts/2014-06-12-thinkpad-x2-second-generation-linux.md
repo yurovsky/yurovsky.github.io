@@ -17,7 +17,7 @@ I must admit that, given the relative newness of the laptop at the time of
 writing, I went ahead and installed the 3.15 kernel right away.  It may be that
 driver support (for example for the various new hotkeys on this laptop) has
 improved from 3.13.  If you would like to do that too, just download the amd64
-headers and image packages from the (Ubuntu mainline kernel PPA)[http://kernel.ubuntu.com/~kernel-ppa/mainline/] and install them by passing both files to
+headers and image packages from the [Ubuntu mainline kernel PPA](http://kernel.ubuntu.com/~kernel-ppa/mainline/) and install them by passing both files to
 `sudo dpkg -i` and then reboot.
 
 ## Issues
@@ -60,7 +60,7 @@ To update the BIOS:
    "BIOS".  This will let you download a "BIOS Update Bootable CD" -- grab the
    newest one offered.  At this time for my machine this was version 1.14.
 2. You will need to use the `geteltorito.pl` perl script ([more information
-   here](http://forums.lenovo.com/t5/Linux-Discussion/SUPPORT-REQUEST-X220-BIOS-UPDATE-INSTRUCTIONS-USB/td-p/532077))to extract the UEFI
+   here](http://forums.lenovo.com/t5/Linux-Discussion/SUPPORT-REQUEST-X220-BIOS-UPDATE-INSTRUCTIONS-USB/td-p/532077)) to extract the UEFI
    bootable image from the ISO file you downloaded.  For example, if your file
    is called "foo.iso", you can:
 
