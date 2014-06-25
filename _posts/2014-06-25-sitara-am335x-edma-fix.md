@@ -14,9 +14,9 @@ appropriate clock and IRQ pin setting.  See, for example, the `omap3_evm_legacy_
 file, the wlcore driver found our card and began to initialize it.
 
 Unfortunately SDIO then stalled, and it did so on its first attempt to use
-DMA -- `CMD52` worked fine (single register accesses) but then it came time to
-use `CMD53` to perform a block transfer and this never returned because the DMA
-callback never triggered.
+DMA -- turning on `CONFIG_MMC_DEBUG` showed that `CMD52` worked fine (single
+register accesses) but then it came time to use `CMD53` to perform a block
+transfer and this never returned because the DMA callback never triggered.
 
 As it turned out our board places the WiFi interface on the MMC2 bus (the
 third controller on Sitara, called `mmc3` in Device Tree as they are numbered
