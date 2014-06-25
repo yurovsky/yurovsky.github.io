@@ -26,7 +26,7 @@ mapped Event 1 and Event 2 to channels 12 and 13 like this:
 
     &edma {
             ti,edma-xbar-event-map = <1 12
-                                      2 13
+                                      2 13>;
     };
 
 The DMA linkage in `&mmc3` then looks like:
