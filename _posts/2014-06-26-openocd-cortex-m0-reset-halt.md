@@ -22,9 +22,9 @@ off write protection for the Device Service Unit (DSU) registers:
 
 Now we can use the DSU control register to set the Chip Erase (CE) bit:
 
-    mwb 0x41002200 0x10
+    mwb 0x41002000 0x10
 
-We can then wait for the DONE bit to be set in the ```STATUSA`` register in the
+We can then wait for the DONE bit to be set in the ``STATUSA`` register in the
 DSU but realistically the chip erase will finish pretty quickly and dumping the
 start of Flash is a good enough check.  On SAMD21 that is at address zero so:
 
