@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Work around reset/halt issues on Cortex M0 and M0+ with openocd
+title: Work around reset/halt issues on Atmel Cortex M0+ with openocd
 ---
 
 I noticed that I could not halt an Atmel SAMD21 with openocd and recalled that
