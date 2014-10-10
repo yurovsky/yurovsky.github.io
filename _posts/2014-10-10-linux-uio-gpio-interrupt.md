@@ -145,7 +145,7 @@ once again after reading. For example, consider this very trivial program:
         } while (1); /* some condition here */
 
         close(fd);
-        return 0;
+        exit(EXIT_SUCCESS);
     }
 
 The value that you will read back is the interrupt count (a running counter of
