@@ -33,7 +33,7 @@ IRQ driver. I created a node named `user_io` and threw in my own name, say,
 `mydevice` into the compabible string as well:
 
     user_io@0 {
-        compatbile = "mydevice,generic-uio,ui_pdrv";
+        compatible = "mydevice,generic-uio,ui_pdrv";
         status = "okay";
     };
 
@@ -44,7 +44,7 @@ pin. In this example I used an Atmel SAM9 SoC and its Port A pin 13. My
 device asserts an active-high interrupt:
 
     user_io@0 {
-        compatbile = "mydevice,generic-uio,ui_pdrv";
+        compatible = "mydevice,generic-uio,ui_pdrv";
         status = "okay";
         interrupt-parent = <&pioA>;
         interrupts = <13 IRQ_TYPE_LEVEL_HIGH>;
@@ -74,7 +74,7 @@ so I added a pinctrl node for it with SAM9-specific initialization:
 I then referenced it in the `user_io` node:
 
     user_io@0 {
-        compatbile = "mydevice,generic-uio,ui_pdrv";
+        compatible = "mydevice,generic-uio,ui_pdrv";
         status = "okay";
         interrupt-parent = <&pioA>;
         interrupts = <13 IRQ_TYPE_LEVEL_HIGH>;
