@@ -4,7 +4,7 @@ title: Handling GPIO interrupts in userspace on Linux with UIO
 ---
 
 The Linux kernel provides a userspace IO subsystem (UIO) which enables some
-types of drivers to be written almost entirely in userspace (see [basic documentation here]{https://www.kernel.org/doc/htmldocs/uio-howto/}. This is done by
+types of drivers to be written almost entirely in userspace (see [basic documentation here](https://www.kernel.org/doc/htmldocs/uio-howto/). This is done by
 via a character device that the user program can open, memory map, and
 perform IO operations with. This device can also be used to block for
 interrupts.
