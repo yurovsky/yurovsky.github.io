@@ -37,6 +37,8 @@ IRQ driver. I created a node named `user_io` and threw in my own name, say,
         status = "okay";
     };
 
+### GPIO Details
+
 That said, for a GPIO interrupt we need an interrupt parent (GPIO port) and
 pin. In this example I used an Atmel SAM9 SoC and its Port A pin 13. My
 device asserts an active-high interrupt:
@@ -49,7 +51,9 @@ device asserts an active-high interrupt:
     };
 
 in the above, the interrupt parent is the GPIO port node in question and the
-interrupt configuration tells it to use pin 13 on that port.
+interrupt configuration tells it to use pin 13 on that port.  The interrupt
+level definitions can be found in the kernel tree in
+`include/dt-bindings/interrupt-controller/irq.h` if you need more detail.
 
 This UIO device can also be tired to pinmux control, for example to set (or
 unset) a pull device. In my case I needed pin A13 to not have any pull devices
@@ -77,6 +81,9 @@ I then referenced it in the `user_io` node:
         pinctrl-names = "default";
         pinctrl-0 = <&pinctrl_user_io>;
     };
+
+Take a look in `/sys/kernel/debug/pinctrl` if you need to troubleshoot pin
+control issues.
 
 ## Userspace
 
