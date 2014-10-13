@@ -47,13 +47,17 @@ device asserts an active-high interrupt:
         compatible = "mydevice,generic-uio,ui_pdrv";
         status = "okay";
         interrupt-parent = <&pioA>;
-        interrupts = <13 IRQ_TYPE_LEVEL_HIGH>;
+        interrupts = <13 IRQ_TYPE_EDGE_RISING>;
     };
 
 in the above, the interrupt parent is the GPIO port node in question and the
 interrupt configuration tells it to use pin 13 on that port.  The interrupt
 level definitions can be found in the kernel tree in
 `include/dt-bindings/interrupt-controller/irq.h` if you need more detail.
+Typically you need a level interrupt (ex: `IRQ_TYPE_LEVEL_HIGH`) when your
+device pulses the pin rather than just changing its level.  An edge trigger is
+more common, in this case the device just changes the pin level and holds it
+at the new level until the interrupt is acknowledged or otherwise cleared.
 
 This UIO device can also be tired to pinmux control, for example to set (or
 unset) a pull device. In my case I needed pin A13 to not have any pull devices
@@ -99,7 +103,7 @@ A userspace program can use the UI device node as follows:
 
 1. `open()` the device node in read-write (`O_RDWR`)
 2. `write()` to the device to unmask the interrupt
-3. `read()` from the device to block until an interrupt arrives. You can also use `select()` or `poll()` or whatever blocking method you prefer. Go back to step 2 to handle the next interrupt.
+3. `read()` from the device to block until an interrupt arrives. You can also use `select()` or `poll()` or whatever blocking method you prefer. Go back to step 2 to handle the next interrupt.  A `select()` or `poll()` call is much more efficient than a simple `read()` due to the way the UIO event handling is implemented internally.
 4. `close()` the device to mask off the interrupt and clean up.
 
 All reads and writes are handled by transferring exactly a 32-bit unsigned
