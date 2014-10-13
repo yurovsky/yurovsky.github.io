@@ -60,15 +60,15 @@ more common, in this case the device just changes the pin level and holds it
 at the new level until the interrupt is acknowledged or otherwise cleared.
 
 This UIO device can also be tired to pinmux control, for example to set (or
-unset) a pull device. In my case I needed pin A13 to not have any pull devices
-so I added a pinctrl node for it with SAM9-specific initialization:
+unset) a pull device. In my case I needed pin A13 to be pulled low so I added a
+pinctrl node for it with SAM9-specific initialization:
 
     ahb {
         apb {
             pinctrl@fffff400 {
                 user_io {
                     pinctrl_user_io: user_io-0 {
-                        atmel,pins = <AT91_PIOA 13 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+                        atmel,pins = <AT91_PIOA 13 AT91_GPIO AT91_PINCTRL_PULL_DOWN>;
                     };
                 };
             };
