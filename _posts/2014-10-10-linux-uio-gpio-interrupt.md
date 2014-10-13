@@ -81,7 +81,7 @@ I then referenced it in the `user_io` node:
         compatible = "mydevice,generic-uio,ui_pdrv";
         status = "okay";
         interrupt-parent = <&pioA>;
-        interrupts = <13 IRQ_TYPE_LEVEL_HIGH>;
+        interrupts = <13 IRQ_TYPE_EDGE_RISING>;
         pinctrl-names = "default";
         pinctrl-0 = <&pinctrl_user_io>;
     };
