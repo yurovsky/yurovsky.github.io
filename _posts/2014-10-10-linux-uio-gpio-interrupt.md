@@ -13,7 +13,7 @@ interrupts.
 
 This provides a nice and fairly low-latency interface for handling a GPIO
 interrupt in userspace. In my case, I needed a userspace program to talk to
-SPI (via the `spidev` module) and handle interrupts as well, so UI seemed more
+SPI (via the `spidev` module) and handle interrupts as well, so UIO seemed more
 fitting than, say, a gpio-keys input events approach.
 
 The kernel provides a `uio_pdrv_genirq` module which uses the core `uio`
@@ -61,7 +61,7 @@ at the new level until the interrupt is acknowledged or otherwise cleared.
 
 This UIO device can also be tired to pinmux control, for example to set (or
 unset) a pull device. In my case I needed pin A13 to be pulled low so I added a
-pinctrl node for it with SAM9-specific initialization:
+`pinctrl` node for it with SAM9-specific initialization:
 
     ahb {
         apb {
