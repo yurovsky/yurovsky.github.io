@@ -8,7 +8,8 @@ and this is my quick review with some notes about using it as a Linux machine.
 As an executive summary: yes, this laptop is great for running Linux, pretty
 much everything works out of the box including the "adaptive" keyboard.
 
-I made an Ubuntu 14.04 64-bit USB disk and booted off of it (hit F12 at the
+I made an Ubuntu 14.04 64-bit USB disk (scroll down for a 14.10 update) and
+booted off of it (hit F12 at the
 BIOS screen to select a boot device, or press Enter to interrupt the boot
 process and then F12) and installed Ubuntu like normal, erasing the entire
 hard disk.
@@ -129,3 +130,15 @@ welcome change from the ones they put in previous X series laptops.
 
 The keyboard feel, to me, is quite good, especially compared with the MacBook
 Pro keyboard.  It is comfortable to type on aside from the strange layout.
+
+## Update: Ubuntu 14.10
+
+I upgraded to Ubuntu 14.10, and switched to using its normal kernel (14.10 uses
+3.16).  The touchpad emulated buttons (the top row for the nub) do work now,
+the left one left-clicks, the right one right-clicks, and the middle one does
+the right thing for middle-click (ie: paste) which is really nice!
+Unfortunately the old ThinkPad behavior of scrolling by holding the middle
+button and moving the nub is not present.
+
+Everything else works fine and there were no regressions from the 14.04
+behavior.
