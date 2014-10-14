@@ -109,6 +109,11 @@ A userspace program can use the UI device node as follows:
 All reads and writes are handled by transferring exactly a 32-bit unsigned
 integer (that is, 4 bytes).
 
+Keep in mind that you can look at `/proc/interrupts` to check the number of
+interrupt counts for the GPIO line in question.  This lets you know if the
+interrupt is happening at all or whether an IRQ storm has happened.  The
+counter increments for every interrupt event.
+
 ### Example
 
 The interrupt starts masked and the user must explicitly unmask it. This is
