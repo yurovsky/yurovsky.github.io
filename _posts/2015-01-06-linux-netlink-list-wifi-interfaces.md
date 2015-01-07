@@ -93,6 +93,7 @@ We also allocate a callback for which we can register various handlers:
     struct nl_cb *cb = nl_cb_alloc(NL_CB_DEFAULT);
     if (!cb) {
             fprintf(stderr, "Failed to allocate netlink callback.\n");
+	    nlmsg_free(msg);
             return -ENOMEM;
     }
 
@@ -159,7 +160,7 @@ Here is a very simple `list_interface_handler` implementation, see
 
 We should free up the callback, message, and netlink socket:
 
-    nl_cb_put(cb);
     nlmsg_free(msg);
+    nl_cb_put(cb);
 
     nl_socket_free(wifi.nls);
