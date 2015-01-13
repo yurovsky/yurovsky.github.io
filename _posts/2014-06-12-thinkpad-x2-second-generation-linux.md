@@ -3,6 +3,24 @@ layout: post
 title: ThinkPad X1 Carbon second generation with Linux
 ---
 
+## Update: Ubuntu 14.10
+
+I upgraded to Ubuntu 14.10, and switched to using its normal kernel (14.10 uses
+3.16).  The touchpad emulated buttons (the top row for the nub) do work now,
+the left one left-clicks, the right one right-clicks, and the middle one does
+the right thing for middle-click (ie: paste) which is really nice!
+Unfortunately the old ThinkPad behavior of scrolling by holding the middle
+button and moving the nub is not present.  That said, the touchpad is very
+usible now with no cursor "jumping" when clicking.
+
+Everything else works fine and there were no regressions from the 14.04
+behavior.
+
+Read on if you would like to know more, and especially check the note about the
+BIOS update.
+
+## Original post
+
 I recently received a ThinkPad X1 Carbon (second generation, type 20A7) at work
 and this is my quick review with some notes about using it as a Linux machine.
 As an executive summary: yes, this laptop is great for running Linux, pretty
@@ -130,15 +148,3 @@ welcome change from the ones they put in previous X series laptops.
 
 The keyboard feel, to me, is quite good, especially compared with the MacBook
 Pro keyboard.  It is comfortable to type on aside from the strange layout.
-
-## Update: Ubuntu 14.10
-
-I upgraded to Ubuntu 14.10, and switched to using its normal kernel (14.10 uses
-3.16).  The touchpad emulated buttons (the top row for the nub) do work now,
-the left one left-clicks, the right one right-clicks, and the middle one does
-the right thing for middle-click (ie: paste) which is really nice!
-Unfortunately the old ThinkPad behavior of scrolling by holding the middle
-button and moving the nub is not present.
-
-Everything else works fine and there were no regressions from the 14.04
-behavior.
