@@ -3,7 +3,7 @@ layout: post
 title: Reflashing and debugging Atmel SAML21 with openocd
 ---
 
-I submitted [this simple patch](http://openocd.zylin.com/#/c/2666/) adding support for the new super low power Atmel SAML21 Cortex M0+ MCU family.  The flash controller is nearly identical to the one in SAMD20 and related parts so it's a trivial change aside from having to fix a couple of bit shifting mistakes that I hadn't caught until now.
+I submitted [this simple patch](http://openocd.zylin.com/#/c/2690/) adding support for the new super low power Atmel SAML21 Cortex M0+ MCU family.  The flash controller is nearly identical to the one in SAMD20 and related parts so it's a trivial change aside from having to fix a couple of bit shifting mistakes that I hadn't caught until now.
 
 If you'd like to try this out, apply that patch and rebuild and install openocd and then plug in your SAML21 Xplained Pro board.  You can make an openocd.cfg file that contains:
 
