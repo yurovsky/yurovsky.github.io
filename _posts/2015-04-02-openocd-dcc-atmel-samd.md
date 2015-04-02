@@ -48,7 +48,7 @@ Here's a snippet for "read",
         /* We have the character the debugger wrote in 'data' now. */
     }
 
-From there the character in `data' could be handled to a console parser or placed in some kind of receive FIFO.  You could also implement the standard C library`\_read()` stub to pull from that FIFO.
+From there the character in `data` could be handled to a console parser or placed in some kind of receive FIFO.  You could also implement the standard C library`\_read()` stub to pull from that FIFO.
 
 And here's your "write":
 
