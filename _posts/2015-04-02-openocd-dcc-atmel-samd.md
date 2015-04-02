@@ -11,6 +11,8 @@ I found a nice piece of debug hardware on Atmel's SAMD line of Cortex M0+ microc
 
 See section 12.11.4 in the Atmel SAMD20 datasheet for more details.
 
+## openocd
+
 I submitted [an implementation for openocd](http://openocd.zylin.com/#/c/2692/) that provides a TCP socket server to "host" the DCC and control of the two channels.  This should be enough to implement a simple UART-style console in your SAMD firmware though you can use it for tracing and other functionality as well.
 
 If you'd like to try this out, apply that patch and then decide on a scheme for using the DCC.  Here's what I did for example:
@@ -28,6 +30,8 @@ In openocd, I then issue:
 And this starts a TCP server on port 22000, polls and writes to DCC0, and polls and reads from DCC1.  I then telnet to that port and I have my "console":
 
     telnet localhost 22000
+
+## Firmware
 
 On the firmware side, we need to check the DCC "dirty" bits in the DSU STATUSB
 register.  The idea is:
@@ -57,3 +61,11 @@ And here's your "write":
     }
 
 The dummy have\_data\_to\_write and data\_to\_write methods can be implemented, for example as part of a simple FIFO that buffers up outgoing characters and pulls them from the FIFO when the DCC is available.  Your standard C library \_write() stub implementation would then simply place characters in the FIFO and let a DCC task (or background/idle hook) do the above IO transfer.  This would enable you to simply `printf()' into the DCC.
+
+Finally keep in mind that SAMD MCUs also let you know if a debugger is present.  This is very useful and it's not normally possible on Cortex M0+ CPUs.  You may, for example, choose to save CPU time and power by not handling the DCC at all if the debugger is not present and then enable handling if you detect that there is a debugger.  This again is in STATUSB:
+
+    if (DSU->STATUSB.bit.DBGPRES) {
+        /* Enable IO for your DCC "console" feature" */
+    }
+
+In a low-power system this could mean optionally starting a low-priority task that deals with DCC IO as described above when the debugger is present but not even starting that task (or blocking it indefinitely) when there is no debugger.  See section 12.13.3 for more details on these STATUSB bits.
