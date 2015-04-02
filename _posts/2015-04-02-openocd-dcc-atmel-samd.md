@@ -56,4 +56,4 @@ And here's your "write":
         DSU->DCC[1].reg = data_to_write();
     }
 
-The dummy `have\_data\_to\_write' and `data\_to\_write' methods can be implemented, for example as part of a simple FIFO that buffers up outgoing characters and pulls them from the FIFO when the DCC is available.  Your standard C library `_write()' stub implementation would then simply place characters in the FIFO and let a DCC task (or background/idle hook) do the above IO transfer.  This would enable you to simply `printf()' into the DCC.
+The dummy `have_data_to_write' and `data\_to\_write' methods can be implemented, for example as part of a simple FIFO that buffers up outgoing characters and pulls them from the FIFO when the DCC is available.  Your standard C library `_write()' stub implementation would then simply place characters in the FIFO and let a DCC task (or background/idle hook) do the above IO transfer.  This would enable you to simply `printf()' into the DCC.
