@@ -3,7 +3,7 @@ layout: post
 title: Using the DCC as a debug console on Atmel SAMD MCUs
 ---
 
-I found a nice piece of debug hardware on Atmel's SAMD line of Cortex M0+ microcontrollers.  It's a simple implementation of a Debug Communication Channel (DCC) as part of Atmel's Device Service Unit (DSU).  They provide two 32-bit DCCs which makes it easy to implement a bidirectional debug "console" without using UART or other hardware.  This has a few advantages:
+I found a nice piece of debug hardware on Atmel's [SAMD](http://www.atmel.com/products/microcontrollers/arm/sam-d.aspx) line of Cortex M0+ microcontrollers (this includes the new low power [SAML21](http://www.atmel.com/products/microcontrollers/arm/sam-l.aspx)).  It's a simple implementation of a Debug Communication Channel (DCC) as part of Atmel's Device Service Unit (DSU).  They provide two 32-bit DCCs which makes it easy to implement a bidirectional debug "console" without using UART or other hardware.  This has a few advantages:
 
 - no UART wiring or pins used, just SWD which you're already using for debugging.  no baud rates to worry about or serial terminals at all.
 - the DCC implements basic flow control like a polled UART
