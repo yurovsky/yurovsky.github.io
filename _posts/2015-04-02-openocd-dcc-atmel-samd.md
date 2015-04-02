@@ -48,7 +48,7 @@ Here's a snippet for "read",
         /* We have the character the debugger wrote in 'data' now. */
     }
 
-From there the character in `data` could be handled to a console parser or placed in some kind of receive FIFO.  You could also implement the standard C library`\_read()` stub to pull from that FIFO.
+From there the character in `data` could be handled to a console parser or placed in some kind of receive FIFO.  You could also implement the standard C library`_read()` stub to pull from that FIFO.
 
 And here's your "write":
 
@@ -59,7 +59,7 @@ And here's your "write":
         DSU->DCC[1].reg = data_to_write();
     }
 
-The dummy `have\_data\_to\_write()` and `data\_to\_write()` methods can be implemented, for example as part of a simple FIFO that buffers up outgoing characters and pulls them from the FIFO when the DCC is available.  Your standard C library `\_write()` stub implementation would then simply place characters in the FIFO and let a DCC task (or background/idle hook) do the above IO transfer.  This would enable you to simply `printf()` into the DCC.
+The dummy `have_data_to_write()` and `data_to_write()` methods can be implemented, for example as part of a simple FIFO that buffers up outgoing characters and pulls them from the FIFO when the DCC is available.  Your standard C library `_write()` stub implementation would then simply place characters in the FIFO and let a DCC task (or background/idle hook) do the above IO transfer.  This would enable you to simply `printf()` into the DCC.
 
 Finally keep in mind that SAMD MCUs also let you know if a debugger is present.  This is very useful and it's not normally possible on Cortex M0+ CPUs.  You may, for example, choose to save CPU time and power by not handling the DCC at all if the debugger is not present and then enable handling if you detect that there is a debugger.  This again is in STATUSB:
 
