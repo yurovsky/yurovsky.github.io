@@ -11,7 +11,7 @@ approach, however, is the same but just a little bit more work is required
 because the `ARM_CM0` port in FreeRTOS does not export the "timer setup"
 symbol needed as part of tickless idle initialization.
 
-Intead, it implements a private method `prvSetupTimerInterrupt` which only
+Instead it implements a private method `prvSetupTimerInterrupt` which only
 deals with SysTick.  The fix is really simple, go ahead and make that symbol
 public (and rename it to `vPortSetupTimerInterrupt` per FreeRTOS standard) and
 mark the internal (default) implementation as being a weak define so that we
