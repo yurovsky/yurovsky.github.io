@@ -27,6 +27,8 @@ and groups) but that's covered in FreeRTOSConfig.h
 
 ## FreeRTOS patch
 
+_At time of writing, against FreeRTOSV8.2.1_:
+
     --- a/FreeRTOS/Source/portable/GCC/ARM_CM0/port.c
     +++ b/FreeRTOS/Source/portable/GCC/ARM_CM0/port.c
     @@ -107,7 +107,7 @@
