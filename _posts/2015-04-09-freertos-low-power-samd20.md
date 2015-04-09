@@ -34,7 +34,7 @@ clock source.  We then call the ASF timer-counter API to set things up:
         tc_get_config_defaults(&config);
         config.clock_source     = GCLK_GENERATOR_5;
         config.counter_size     = TC_COUNTER_SIZE_32BIT;
-        config.run_in_standby   = true; /* because it is a wakeup source */
+        config.run_in_standby   = true;
         config.clock_prescaler  = TC_CLOCK_PRESCALER_DIV1;
         config.wave_generation  = TC_WAVE_GENERATION_MATCH_FREQ;
 
@@ -57,6 +57,8 @@ At this point we should have a working FreeRTOS tick.  Make sure that you
 consistently use milliseconds throughout your code rather than raw ticks, for
 example when calling `vTaskDelay` -- that is, pass in a number of ticks needed
 for a certain number of milliseconds.
+
+## Tick Suppression
 
 We need to supply FreeRTOS with a `vPortSuppressTicksAndSleep` method.  This is
 called when the system is going to sleep and takes as an argument an expected
@@ -83,9 +85,9 @@ handle resuming the "system tick" timer in a helper method, for example:
             TC_CALLBACK_CC_CHANNEL0);
         tc_enable_callback(&tc, TC_CALLBACK_CC_CHANNEL0);
 
-        /* Resume system tick, the starting count is taken from whatever is in
-           the counter right now.  This lets us literally resume or otherwise
-           pre-load the counter. */
+        /* Resume system tick, the starting count is taken from whatever
+           is in the counter right now.  This lets us literally resume
+           or otherwise pre-load the counter. */
         tc_set_top_value(&tc, TIMER_RELOAD_VALUE_ONE_TICK);
         tc_start_counter(&tc);
     }
@@ -100,8 +102,8 @@ We also need to account for a few things:
     /* Number of timer counts that make up one RTOS tick. */
     #define TIMER_COUNTS_ONE_TICK   ((system_gclk_gen_get_hz(GCLK_GENERATOR_5)) / configTICK_RATE_HZ)
 
-    /* The maximum number of ticks we can suppress: that is, the number of ticks
-       that fit into our 32-bit counter. */
+    /* The maximum number of ticks we can suppress: that is, the number
+       of ticks that fit into our 32-bit counter. */
     #define MAX_SUPPRESSED_TICKS     (0xFFFFFFFFUL / (unsigned long)TIMER_COUNTS_ONE_TICK)
 
 We now implement `vPortSuppressTicksAndSleep`:
@@ -114,8 +116,8 @@ We now implement `vPortSuppressTicksAndSleep`:
 
         /* Pause the system tick timer while we reconfigure it */
         tc_stop_counter(&tc);
-        /* Save the counter value at this time so that we can use it for tick
-           accounting on wakeup. */
+        /* Save the counter value at this time so that we can use it
+           for tick accounting on wakeup. */
         uint32_t last_count = tc_get_count_value(&tc);
         /* Make sure that the overflow interrupt flag is cleared to avoid a
            spurious event */
@@ -131,21 +133,23 @@ We now implement `vPortSuppressTicksAndSleep`:
                 resume_system_tick();
                 break;
 
-            /* We are going to sleep indefinitely, an interrupt will wake us
-               up.  In this implementation we do not have a way to count how
-               long we slept if we were to actually do that, so we will treat
-               this like eStandardSleep with maximum sleep time instead. */
+            /* We are going to sleep indefinitely, an interrupt will
+               wake us up.  In this implementation we do not have a
+               way to count how long we slept if we were to actually
+               do that, so we will treat this like eStandardSleep with
+               maximum sleep time instead. */
             case eNoTasksWaitingTimeout:
                 xExpectedIdleTime = MAX_SUPPRESSED_TICKS;
                 /* fall through... */
-            /* We are going to sleep for the specified amount of time (via
-               wakeup alarm) or until another interrupt wakes us up. */
+            /* We are going to sleep for the specified amount of time
+               (via wakeup alarm) or until another interrupt wakes us
+               up. */
             case eStandardSleep:
-                /* Configure desired low-power state.  This is up to you and
-                   you may want to pick a state based on resume time versus the
-                   expected sleep time or other factors.  See the ASF
-                   documentation for details about SYSTEM_SLEEPMODE_IDLE_2 for
-                   instance */
+                /* Configure desired low-power state.  This is up to
+                   you and you may want to pick a state based on resume
+                   time versus the expected sleep time or other factors.
+                   See the ASF documentation for details about
+                   SYSTEM_SLEEPMODE_IDLE_2 for instance */
                 system_set_sleepmode(SYSTEM_SLEEPMODE_STANDBY);
 
                 /* Disconnect the system tick */
@@ -170,9 +174,10 @@ We now implement `vPortSuppressTicksAndSleep`:
 
                 /* We just woke up.  How long did we sleep for? */
 
-                /* A counter overflow means that we slept for at least the
-                   expected time, so we can go ahead and adjust the RTOS
-                   tick count by that amount right now. */
+                /* A counter overflow means that we slept for at
+                   least the expected time, so we can go ahead
+                   and adjust the RTOS tick count by that amount
+                   right now. */
                 if (tc.hw->COUNT32.INTFLAG.bit.OVF)
                     vTaskStepTick(xExpectedIdleTime);
 
