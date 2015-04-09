@@ -182,14 +182,16 @@ We now implement `vPortSuppressTicksAndSleep`:
                     vTaskStepTick(xExpectedIdleTime);
 
                 /* We must also adjust for time left over (if any) */
-                uint32_t cur_count = (last_count + tc_get_count_value(&tc));
+                uint32_t cur_count = (last_count +
+                    tc_get_count_value(&tc));
                 vTaskStepTick(cur_count / TIMER_COUNTS_ONE_TICK);
                     TIMER_COUNTS_ONE_TICK);
                 
                 /* Resume the system tick, starting at approximately the
-                   remainder of time until the next tick (that is, what we
-                   could not account for above) */
-                tc_set_count_value(&tc, cur_count % TIMER_COUNTS_ONE_TICK);
+                   remainder of time until the next tick (that is, what
+                   we could not account for above) */
+                tc_set_count_value(&tc,
+                    cur_count % TIMER_COUNTS_ONE_TICK);
                 resume_system_tick();
                 break;
         }
