@@ -119,8 +119,9 @@ We now implement `vPortSuppressTicksAndSleep`:
         /* Save the counter value at this time so that we can use it
            for tick accounting on wakeup. */
         uint32_t last_count = tc_get_count_value(&tc);
-        /* Make sure that the overflow interrupt flag is cleared to avoid a
-           spurious event */
+        /* Make sure that the overflow interrupt flag is cleared, we
+           will look for an overflow on wakeup so we can't start
+           with one. */
         tc.hw->COUNT32.INTFLAG.bit.OVF = 1;
 
         /* Enter critical section */
