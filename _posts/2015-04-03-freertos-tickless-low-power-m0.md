@@ -76,3 +76,8 @@ The implementation will need the `vPortSuppressTicksAndSleep` which is actually 
     #define portSUPPRESS_TICKS_AND_SLEEP    vPortSuppressTicksAndSleep
 
 and this can be placed right in to FreeRTOSConfig.h so that `vPortSuppressTicksAndSleep` gets called.
+
+## Example implementation
+
+Please see [this post](http://yurovsky.github.io/2015/04/09/freertos-low-power-samd20/) for an example implementation for Atmel SAMD20 and
+related parts.
