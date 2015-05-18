@@ -26,7 +26,7 @@ The solution is quite simple:
 2. Purchase or borrow a T5 screwdriver and a small (size 0 or so) Philips screw driver and a guitar pick (or similar plastic tool) and read the first part of [this excellent iFixit teardown](https://www.ifixit.com/Teardown/Dell+XPS+13+Teardown/36157)
 3. Replace the Broadcom card with the Intel card.  I found it helpful to use tweezers to plug the antennas back in.
 
-...and then everything will work fine.  The replacement process took about ten minutes and this laptop is not difficult to take apart.  I now have an Intel PCIE card rather than a Broadcom USB card (PCIE mini card connector brings out both per the standard).
+...and then everything (including Bluetooth) will work fine.  The replacement process took about ten minutes and this laptop is not difficult to take apart.  I now have an Intel PCIE card rather than a Broadcom USB card (PCIE mini card connector brings out both per the standard).
 
 ![Replacement card installed](/assets/dell-wifi.jpg)
 
