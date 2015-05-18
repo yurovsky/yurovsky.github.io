@@ -31,3 +31,9 @@ The solution is quite simple:
 ![Replacement card installed](/assets/dell-wifi.jpg)
 
 For reference, the card I purchased on eBay (sub-$30) was advertised as a Dell part and described as `Intel 7260NGW Wireless-AC Dual band 7260 802.11ac/a/b/g/n WiFi + BT 4.0 Card` with Dell part numbers `KTTYN 0KTTYN M7X42 0M7X42` however pretty much anything that matches the pictures of the card and number of antennas should work.
+
+lspci output for the card I used:
+
+	02:00.0 Network controller: Intel Corporation Wireless 7260 (rev 83)
+
+
