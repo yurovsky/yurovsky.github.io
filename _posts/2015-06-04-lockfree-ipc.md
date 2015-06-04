@@ -16,7 +16,7 @@ according to the IPC API contract.
 Both processes use `mmap()` to map a window into this shared memory and can now
 communicate:
 
-![shared memory](/assets/lfs-proc.png)
+![shared memory](/assets/lfs_proc.png)
 
 We then need a data structure such as a stack or queue that both processes can
 use to move data around in this window and this in turn cannot be dynamically
