@@ -17,9 +17,9 @@ context switches.
 
 There are several ways of implementing IPC in Linux and I chose the simple
 POSIX shared memory approach to represent IPC "channels":
-1. One process (the producer) creates a POSIX shared memory object and sizes it
+ 1. One process (the producer) creates a POSIX shared memory object and sizes it
 according to the IPC API contract.
-2. Another process (the consumer) opens this shared memory object.
+ 2. Another process (the consumer) opens this shared memory object.
 
 Both processes use `mmap()` to map a window into this shared memory and can now
 communicate:
