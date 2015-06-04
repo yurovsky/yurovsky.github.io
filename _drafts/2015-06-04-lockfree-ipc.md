@@ -8,7 +8,7 @@ more real-time threads to communicate with other processes on the system. The
 use case is single producer with single consumer per IPC channel.
 
 The real-time requirements of the application (this runs on a kernel with the
-PREEMPT RT patch set applied) requires that the IPC channel is lock-free and
+[PREEMPT RT patch set](http://rt.wiki.kernel.org) applied) requires that the IPC channel is lock-free and
 presents minimal overhead. That is, a real-time producer thread or process must
 be able to quickly write something and keep executing without locking or
 context switches.
