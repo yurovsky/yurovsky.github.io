@@ -41,11 +41,11 @@ stack or list that has all of its nodes allocated up front except here we also
 place everything in a set location in memory (or rather cast a particular
 memory location).
 
-I chose a simple stack data structure and based my design on the [C11 Lock free Stack](http://nullprogram.com/blog/2014/09/02/) written by Chris Wellons.  This
+I chose a simple stack data structure and based my design on the [C11 Lock free Stack written by Chris Wellons](http://nullprogram.com/blog/2014/09/02/).  This
 does use the [C11 `stdatomic.h` primitives](http://en.cppreference.com/w/c/atomic) so GCC 4.9 or newer is required to
 compile and GCC should be told to be in C11 mode (for example with `-std=c11`).
 GCC switched to C11 by default in version 5.0 so that is now the default if you
-do not specify `-std=`.
+do not specify `-std=` otherwise.
 
 This stack maintains two pointers: a `head` and `free` which point into the
 pool of stack nodes.  Data is added by pushing onto the head (the new node
