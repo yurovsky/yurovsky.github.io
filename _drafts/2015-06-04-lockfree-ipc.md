@@ -42,7 +42,7 @@ place everything in a set location in memory (or rather cast a particular
 memory location).
 
 I chose a simple stack data structure and based my design on the [C11 Lock free Stack](http://nullprogram.com/blog/2014/09/02/) written by Chris Wellons.  This
-does use the C11 `stdatomic.h` primitives so GCC 4.9 or newer is required to
+does use the [C11 `stdatomic.h` primitives](http://en.cppreference.com/w/c/atomic) so GCC 4.9 or newer is required to
 compile and GCC should be told to be in C11 mode (for example with `-std=c11`).
 GCC switched to C11 by default in version 5.0 so that is now the default if you
 do not specify `-std=`.
@@ -65,11 +65,16 @@ calculate a pointer to some offset in the buffer pool.
 ## Machine capabilities and limitations
 
 This approach assumes that the machine in question is capable of compare and
-swap (CAS) and most of them (modern ARM, PowerPC, x86, etc) are.  They do vary
-in the CAS size they support (among other things), that is how many bytes can
-be atomically compared and swapped.  The machine I am targeting for example does
-not support "double CAS" and therefore cannot compare and swap a pointer and
-ABA counter in one shot.  On the other hand, I am using base plus offset
+swap (CAS) and most of them (modern ARM, PowerPC, x86, etc) are.  The C11
+generic function [atomic_compare_exchange_weak](http://en.cppreference.com/w/c/atomic/atomic_compare_exchange) will generate suitable CAS instructions.
+
+Machines do vary in the CAS size they support (among other things), that is how
+many bytes can be atomically compared and swapped.  There is a set of
+[Atomic lock-free constants](http://en.cppreference.com/w/c/atomic/ATOMIC_LOCK_FREE_consts) that should be checked to determine what the machine is capable of.
+
+The CPU I am targeting for example does not support "double CAS" and therefore
+cannot compare and swap a pointer and ABA counter in one shot.  On the other
+hand, I am using base plus offset
 addressing rather than pointers and I have a finite number of "slots" that I
 need to address so the size of the "pointer" (offset) can be adjusted such that
 it, plus an ABA counter, can "fit" into the CAS capability of the machine.
@@ -92,20 +97,19 @@ just a 16-bit value representing another offset into the node pool,
         };
 
 The stack "descriptor" itself contains a number of elements including the stack
-head and free "pointers".  It is set up at initialization and then modified as
-needed by `push` and `pop` operations.  It is useful to think of the "node pool"
-as an array of `struct lfs_node` so I include a `node_pool` element for
-convenience.  Similarly I include a `buffer_pool` element even though these can
-be calculated when needed.
+head and free "pointers". It is set up at initialization and then modified as
+needed by `push` and `pop` operations. We would normally have pointers here to
+the stack node pool and buffer pool, however with the shared memory window
+design this is not possible and, given the fixed layout in memory, we can easily
+calculate those locations as offsets from the location of the descriptor (at
+the start of the buffer).
 
         typedef struct {
-            struct lfs_node *node_pool; /* Location of nodes */
-            void *buffer_pool; /* Location of data buffers */
             size_t depth; /* Number of nodes (and corresponding data buffers) */
             size_t data_nb; /* Size of each data buffer, in bytes */
             _Atomic struct lfs_head shead, sfree; /* stack and free stack */
             _Atomic size_t size; /* Number of nodes on the stack */
-        } lfs_t;
+        } __attribute__((packed)) lfs_t;
 
 ## API
 
