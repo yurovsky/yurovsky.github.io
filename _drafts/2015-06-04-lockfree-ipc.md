@@ -96,6 +96,14 @@ just a 16-bit value representing another offset into the node pool,
             uint16_t inext; /* offset into the node pool */
         };
 
+An offset value of `0` corresponds to the 0th element so some kind of special
+value is needed to describe a "null pointer", I chose:
+
+        #define NULL_INDEX  0xFFFF
+
+since I do not intend to support very deep stacks in this design.  An index can
+then be checked against `NULL_INDEX` just like a check for `NULL`.
+
 The stack "descriptor" itself contains a number of elements including the stack
 head and free "pointers". It is set up at initialization and then modified as
 needed by `push` and `pop` operations. We would normally have pointers here to
@@ -119,7 +127,7 @@ This descriptor implies that
 
 ## API
 
-The lockfree stack (LFS) itself must be initialized and this in turn needs to
+The lock-free stack (LFS) itself must be initialized and this in turn needs to
 know where the descriptor is, the desired stack depth, and how big the buffers
 in the buffer pool are (the latter is used to calculate data pointers from the
 internally managed offsets).
@@ -139,3 +147,174 @@ Data can be popped off the stack as well:
 And the number of nodes on the stack is tracked and available:
 
         size_t lfs_size(lfs_t *lfs);
+
+## Implementation
+
+The LFS internally must implement `push` and `pop` which in turn are called by
+the `lfs_push` and `lfs_pop` routines.
+
+`lfs_pop` will:
+* `pop` a node from the stack
+* `push` that node to the free stack
+* adjust the `size` book keeping
+* return the buffer pool pointer corresponding to that node
+
+        void *lfs_pop(lfs_t *lfs)
+        {
+            /* Pull a node off the stack */
+            uint16_t inode = pop(lfs, &lfs->shead);
+            if (inode == NULL_INDEX) {
+                return NULL; /* There was nothing on the stack */
+            } else {
+                /* We pulled a node off so decrement the size */
+                atomic_fetch_sub(&lfs->size, 1);
+                /* Place this node onto the free stack */
+                push(lfs, &lfs->sfree, inode);
+                /* Resolve the corresponding buffer pointer */
+                return get_node_value(lfs, inode);
+            }
+        }
+
+`lfs_push` will:
+* `pull` a node from the free stack
+* copy data into the buffer pool location corresponding to that node
+* `push` that node into the stack
+* adjust the `size` book keeping
+
+        bool lfs_push(lfs_t *lfs, void *value)
+        {
+            /* Pull a node off the free stack */
+            uint16_t inode = pop(lfs, &lfs->sfree);
+            if (inode == NULL_INDEX) {
+                return false; /* There was no room. */
+            } else {
+                /* Copy the data into the buffer corresponding to this new node */
+                memcpy(get_node_value(lfs, inode), value, lfs->data_nb);
+                /* Place the node into the stack and increment the stack size */
+                push(lfs, &lfs->shead, inode);
+                atomic_fetch_add(&lfs->size, 1);
+                return true;
+            }
+        }
+
+`lfs_size` simply loads and returns the `size` field contents:
+
+        size_t lfs_size(lfs_t *lfs)
+        {
+            return atomic_load(&lfs->size);
+        }
+
+### Initialization
+
+The initialization routine sets up the `data_nb` and `depth` fields that we use
+to calculate pointers at run time and also sets initial values for the stack
+heads and nodes.
+
+        void lfs_init(lfs_t *lfs, size_t depth, size_t data_nb)
+        {
+            lfs->data_nb = data_nb;
+            lfs->depth = depth;
+
+The initial state for the stack head is to point to NULL (empty stack) and we
+set the `size` accordingly:
+
+            lfs->shead.count = ATOMIC_VAR_INIT(0);
+            lfs->shead.inode = ATOMIC_VAR_INIT(NULL_INDEX);
+            lfs->size = ATOMIC_VAR_INIT(0);
+
+Each node in the node pool points to the next node while the last one points to
+NULL.
+
+            struct lfs_node *nodes = get_node_pool(lfs);
+            /* Initialize the node pool like a linked list. */
+            for (size_t i = 0; i < depth - 1; i++) {
+                nodes[i].inext = i + 1;
+            }
+            nodes[depth - 1].inext = NULL_INDEX; /* last node */
+
+The entire stack is free.  The free head therefore points to the 0th node in
+the node pool:
+
+            /* The free pool "points" to the first node in the node pool */
+            lfs->sfree.inode = ATOMIC_VAR_INIT(0);
+            lfs->sfree.count = ATOMIC_VAR_INIT(0);
+        }
+
+## Internal Implementation
+
+The location of the node pool can be calculated at any time by knowing the
+location of the descriptor and the size of the descriptor:
+
+        static struct lfs_node *get_node_pool(lfs_t *lfs)
+        {
+            return (struct lfs_node *)((char *)lfs + sizeof(*lfs));
+        }
+
+We can calculate the data pointer (into the buffer pool) for a given node by
+using an offset from the node pool location:
+
+        /* Resolve a node by its index and then find the corresponding pointer into the
+         * buffer pool. */
+        static void *get_node_value(lfs_t *lfs, uint16_t inode)
+        {
+            if (inode < lfs->depth) {
+                return (char *)lfs + sizeof(*lfs) +
+                    lfs->depth * sizeof(struct lfs_node) +
+                    inode * lfs->data_nb;
+            } else {
+                return NULL;
+            }
+        }
+
+The internal implementation consists of `push` and `pop` methods that make use
+of the stack represented by the LFS descriptor.
+
+### Lock-free `push`
+
+The lock-free `push` implementation needs a pointer to the head it is working
+with (so that we can use it for both the normal and free stack while also
+knowing about the underlying descriptor) as well as the node we are pushing
+(passed by an index into the node pool).  This routine must:
+* load the current head
+* build the new head which in turn:
+ * has an ABA counter that is one greater than that of the original head (this is done to partially solve the ABA problem).
+ * points (by index) to the node we are pushing onto the stack
+* set up the new node with a `next` pointer corresponding to the original head
+
+        static void push(lfs_t *lfs, _Atomic struct lfs_head *head, uint16_t inode)
+        {
+            struct lfs_head next, orig = atomic_load(head);
+            struct lfs_node *nodes = get_node_pool(lfs);
+
+            do {
+                nodes[inode].inext = orig.inode;
+                next.count = orig.count + 1;
+                next.inode = inode;
+            } while (!atomic_compare_exchange_weak(head, &orig, next));
+        }
+
+### Lock-free `pop`
+
+The lock-free `pop` implementation also must know the head it is working with
+(again so that we can use it for both the normal and free stack) and it in turn
+returns the node that is removed, by index.  This method must:
+* load the current head
+* build a new head that:
+ * has its `next` pointer set to that of the original head
+ * has its ABA counter set to one greater than that of the original head (again this is to partially solve the ABA problem).
+* return the removed original head
+
+        static uint16_t pop(lfs_t *lfs, _Atomic struct lfs_head *head)
+        {
+            struct lfs_head next, orig = atomic_load(head);
+            struct lfs_node *nodes = get_node_pool(lfs);
+
+            if (orig.inode != NULL_INDEX) {
+                do {
+                    next.count = orig.count + 1;
+                    next.inode = nodes[orig.inode].inext;
+                } while (!atomic_compare_exchange_weak(head, &orig, next));
+            }
+
+            return orig.inode;
+        }
