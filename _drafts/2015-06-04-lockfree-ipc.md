@@ -66,7 +66,7 @@ calculate a pointer to some offset in the buffer pool.
 
 This approach assumes that the machine in question is capable of compare and
 swap (CAS) and most of them (modern ARM, PowerPC, x86, etc) are.  The C11
-generic function [atomic_compare_exchange_weak](http://en.cppreference.com/w/c/atomic/atomic_compare_exchange) will generate suitable CAS instructions.
+generic function [`atomic_compare_exchange_weak`](http://en.cppreference.com/w/c/atomic/atomic_compare_exchange) will generate suitable CAS instructions.
 
 Machines do vary in the CAS size they support (among other things), that is how
 many bytes can be atomically compared and swapped.  There is a set of
@@ -110,6 +110,12 @@ the start of the buffer).
             _Atomic struct lfs_head shead, sfree; /* stack and free stack */
             _Atomic size_t size; /* Number of nodes on the stack */
         } __attribute__((packed)) lfs_t;
+
+This descriptor implies that
+* The node pool is located at the address of this descriptor plus the size of the descriptor.
+* The Nth node is located at the address of the node pool plus the size of a node multiplied by `N`
+* The buffer pool is located at the address of the node pool plus the size of the node pool (which in turn is the size of a node multiplied by the `depth`).
+* The Nth buffer is located at the address of the buffer pool plus the size of one buffer, `data_nb`, multiplied by `N`.
 
 ## API
 
