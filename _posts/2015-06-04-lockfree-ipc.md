@@ -158,6 +158,7 @@ The LFS internally must implement `push` and `pop` which in turn are called by
 the `lfs_push` and `lfs_pop` routines.
 
 `lfs_pop` will:
+
 * `pop` a node from the stack
 * `push` that node to the free stack
 * adjust the `size` book keeping
@@ -180,6 +181,7 @@ the `lfs_push` and `lfs_pop` routines.
         }
 
 `lfs_push` will:
+
 * `pull` a node from the free stack
 * copy data into the buffer pool location corresponding to that node
 * `push` that node into the stack
@@ -279,6 +281,7 @@ The lock-free `push` implementation needs a pointer to the head it is working
 with (so that we can use it for both the normal and free stack while also
 knowing about the underlying descriptor) as well as the node we are pushing
 (passed by an index into the node pool).  This routine must:
+
 * load the current head
 * build the new head which in turn:
  * has an ABA counter that is one greater than that of the original head (this is done to partially solve the ABA problem).
@@ -302,6 +305,7 @@ knowing about the underlying descriptor) as well as the node we are pushing
 The lock-free `pop` implementation also must know the head it is working with
 (again so that we can use it for both the normal and free stack) and it in turn
 returns the node that is removed, by index.  This method must:
+
 * load the current head
 * build a new head that:
  * has its `next` pointer set to that of the original head
