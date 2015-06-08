@@ -13,6 +13,10 @@ presents minimal overhead. That is, a real-time producer thread or process must
 be able to quickly write something and keep executing without locking or
 context switches.
 
+I decided to prototype a simple IPC mechanism while looking at a few techniques like [userspace RCU](http://urcu.so/) as well. This is very much a work in
+progress and I am not sure how useful it really is but I am posting it here in
+case it is interesting or even leads to some discussion.
+
 ## Shared Memory
 
 There are several ways of implementing IPC in Linux and I chose the simple
