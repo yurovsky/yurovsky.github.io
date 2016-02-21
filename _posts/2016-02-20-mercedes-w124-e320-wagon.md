@@ -35,6 +35,12 @@ lot more power of course.  The later ones have very good brakes (with four
 piston front calipers), ABS is standard, and a rudimentary traction control
 system called ASR was an option.
 
+All W124s have a driver side air bag and later (1994 and 1995) cars have a
+front passenger side air bag.  This was added by taking away the glove box
+because Mercedes did not want to redesign the dashboard for the two final
+years. The center console does have a storage compartment and the front doors
+have reasonable storage as well.
+
 Keep in mind that these cars do not have particularly good fuel economy and
 they do require premium (91 octane or higher) fuel. The m104 six provides about
 the same fuel economy as the 4.2L m119 V8 in the E420 sedan.
@@ -165,3 +171,14 @@ The rear wagon door hatch struts eventually fail.  Replacements aren't very
 expensive and you can install them yourself with a bit of effort (not my
 favorite repair job, but I got through it!) to restore operation.  The door
 is very heavy otherwise.
+
+The W124 is one of the last (if not the last) cars to use the "bullet" (rather
+than "blade") fuses that were popular on German cars. There are two kinds of
+"bullet" fuses: ones with a silver color contact and ones with a copper color
+contact. The original silver ones are known to build up resistance and cause
+circuits to act like they are open (that is, the fuse is blown but it is not
+physically blown), causing all sorts of problems. All of the fuses should be
+replaced with the copper ones. For example we once noticed that the power
+seats and wipers stopped working: replacing the corresponding fuse solved the
+problem immediately even though that (silver color contact) fuse was not
+blown.
