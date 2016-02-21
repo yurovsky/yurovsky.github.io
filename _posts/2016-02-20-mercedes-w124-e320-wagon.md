@@ -37,9 +37,9 @@ system called ASR was an option.
 
 Keep in mind that these cars do not have particularly good fuel economy and
 they do require premium (91 octane or higher) fuel. The m104 six provides about
-the same fuel economy as the m119 V8 in the E420 sedan which seems a bit sad.
+the same fuel economy as the 4.2L m119 V8 in the E420 sedan.
 It may be the sheer weight of the car plus the 4-speed automatic. Even freeway
-fuel consumption is great.
+fuel consumption is not that great.
 
 ## Our car
 
