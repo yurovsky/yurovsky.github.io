@@ -79,16 +79,16 @@ Whether 300TE or E320, just avoid the 4Matic ones.  [This wikipedia article](htt
 ### Transmission
 
 The 4-speed automatic in these cars is a Mercedes design and is very reliable
-for an automatic. That said most used W124 cars are likely to have enough miles
+for an automatic. Most used W124 cars are likely to have enough miles
 on them to need a transmission rebuild. A replacement transmission runs about
-$2500 at this time which, given the low cost of the car to begin with, is not
-really that big of a deal. That said, you may be able to find a car that
-already has a new or rebuild transmission, that is definitely a bonus. The
-previous owner of our E320 had the transmission replaced at about 216k miles.
+$2500 at this time which given the low cost of the car to begin with is not
+really that big of a deal. You may be able to find a car that already has a
+new or rebuilt transmission, that is definitely a bonus. The previous owner of
+our E320 had the transmission replaced at about 200,000 miles.
 
 These transmissions can fail in a number of ways but a typical warning sign is
 difficulty in engaging reverse: if that is happening, a transmission rebuild
-is coming soon. A car with no working reverse definitely needs a transmission.
+is coming soon. A car without working reverse definitely needs a transmission.
 
 ### Wiring
 
