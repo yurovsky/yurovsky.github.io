@@ -31,7 +31,7 @@ Tell the firewall to allow NFS connections:
 Enable NFSv2 support.  This is very important as the Linux kernel explicitly
 uses the old NFS version 2 protocol when NFS booting, however NFS version 2 is
 disabled by default in Fedora 22, 23, and so on.  Edit `/etc/sysconfig/nfs`
-and set `RPCNFSDARGS=` to `"-V 2" in order to enable NFSv2.
+and set `RPCNFSDARGS=` to `"-V 2"` in order to enable NFSv2.
 
 Restart services for this to take effect:
 
