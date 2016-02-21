@@ -28,6 +28,8 @@ seven people when needed.  The included roof rack works well and is easy to
 adjust.  The wagons feature a hydraulic self-levelling rear suspension that
 handles heavy loads brilliantly.
 
+![E320 Wagon Seats Folded](/assets/wagon-back.png)
+
 The car itself drives better than the popular W123 wagon: it is much more
 modern, more comfortable, and smoother. The wagon door provides a soft-close
 mechanism much like the W140 S-class trunk latch, and the W124 has quite a
