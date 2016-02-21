@@ -44,11 +44,12 @@ fuel consumption is great.
 
 The W124 wagon we wound up buying is a 1994 E320 with, as it turns out, nearly
 all of the options.  Some of the interesting ones include:
-* leather seats (the other option is vinyl)
-* heated front seats with memory (look for heater switches on either side of the center console ashtray)
-* adjustable steering column
-* headlight washer and wiper system
-* ASR (traction control)
+
+ * leather seats (the other option is vinyl)
+ * heated front seats with memory (look for heater switches on either side of the center console ashtray)
+ * adjustable steering column
+ * headlight washer and wiper system
+ * ASR (traction control)
 
 All of the US-market wagons (I believe) have the power sunroof standard along
 with the rear-facing fold-out seats and cargo cover system. The standard wood
