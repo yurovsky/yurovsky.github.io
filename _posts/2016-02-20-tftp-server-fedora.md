@@ -29,5 +29,6 @@ Enable and start the TFTP server:
 Tell the firewall to allow TFTP traffic:
 
     sudo firewall-cmd --permanent --add-service tftp
+    sudo firewall-cmd --reload
 
 You should now be able to transfer files via TFTP.
