@@ -20,8 +20,9 @@ designed for doing wagon things:
 
 ![E320 Wagon](/assets/wagon.jpg)
 
-The rear seats fold forward nicely and latch flat into the floor, there is a
-nice removable cargo cover and cargo net system included, and the car even
+The rear seats fold forward nicely in two sections and latch flat into the
+floor, there is a removable cargo cover and cargo net system included, and
+the car even
 provides two rear-facing seats in the back and is technically able to seat
 seven people when needed.  The included roof rack works well and is easy to
 adjust.  The wagons feature a hydraulic self-levelling rear suspension that
@@ -119,6 +120,9 @@ one from a newer C-class with a 2003 date code to repair our 1994 E320 and it
 worked perfectly.  The wiring can also be repaired via a mail-in service offered
 by a couple of companies (that will run around $400 or so from what I have read). The throttle does have a date code noted on a parts sticker but it may be very
 difficult to see without taking things apart.
+
+There are two variants of the E320 throttle body (and corresponding
+idle/throttle control ECU) -- one for cars with ASR and another for cars without ASR.  They are not interchangeable.
 
 ### Engine
 
