@@ -65,6 +65,25 @@ with the rear-facing fold-out seats and cargo cover system. The standard wood
 trim is zebrano (zebra wood) like on the W123 but there is also an optional
 burl walnut trim.
 
+## Trailer Hitch
+
+We use our E320 wagon to tow a Scamp 13-foot trailer. [Curt Manufacturing](http://www.curtmfg.com/) makes
+a compatible trailer hitch kit that I combined with a generic trailer harness
+wiring kit.  There is not much to the installation beyond following the Curt
+instructions and the wiring is relatively simple: I ran a fused 12V wire from
+the battery positive, following some brake lines to the rear of the car, then
+tapped into the tail light harness behind the spare tire. I removed the rear
+gray "glove box" trim to get to a rubber plug where the harness comes down to
+the hitch and also to run one wire over to the passenger side tail light turn
+signal wiring.  The wire colors were:
+
+* tail lamp: gray/black or gray/red
+* brake: black/red
+* left turn signal: black/white
+* right turn signal: black/green
+
+![E320 Wagon With Camper](/assets/camp1.jpg)
+
 ## Issues and Things to Avoid
 
 There are a number of potential problems or weak points on the W124. They are
@@ -74,7 +93,8 @@ easy enough to deal with but it is important to be aware and ready.
 
 The W124 has the first implementation of 4Matic and it is extremely
 complex and trouble-prone, plus parts to repair it are difficult to obtain.
-Whether 300TE or E320, just avoid the 4Matic ones.  [This wikipedia article](https://en.wikipedia.org/wiki/4Matic) explains 4Matic.
+Just avoid the the 4Matic-equipped 300TE or stick with the E320 which was not
+offered with 4Matic in the US.  [This wikipedia article](https://en.wikipedia.org/wiki/4Matic) explains 4Matic.
 
 ### Transmission
 
