@@ -8,7 +8,7 @@ warning is:
 
     buggy DT: spidev listed directly in DT
 
-and it was introduced by [this patch](http://www.spinics.net/lists/linux-spi/msg03301.html). This is quite unfortunate but easy to work around, through I would
+and it was introduced by [this patch](http://www.spinics.net/lists/linux-spi/msg03301.html). This is quite unfortunate but easy to work around, though I would
 argue that it's counter to the point of the `spidev` driver to begin with: after
 all we're describing hardware that we're talking to from user space and there's
 no need to describe it in the device tree, this just creates extra work.
