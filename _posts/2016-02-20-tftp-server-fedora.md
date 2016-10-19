@@ -24,7 +24,7 @@ Enable and start the TFTP server:
 
     sudo systemctl enable tftp
     sudo systemctl start tftp
-    sudo systemctl demon-reload
+    sudo systemctl daemon-reload
 
 Tell the firewall to allow TFTP traffic:
 
