@@ -66,4 +66,4 @@ sent but error checking is still performed).
 Finally, if we need to implement the daemon side (double-forking, closing file
 descriptors, optionally creating PID files, and so on) please consider linking
 against [libdaemon](http://0pointer.de/lennart/projects/libdaemon/) rather than
-writing the code yourself (see the [testd.c example](http://0pointer.de/lennart/projects/libdaemon/reference/html/index.html) for usage.
+writing the code yourself (see the [testd.c example](http://0pointer.de/lennart/projects/libdaemon/reference/html/index.html) for usage).
