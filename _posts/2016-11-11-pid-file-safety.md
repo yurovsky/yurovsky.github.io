@@ -48,10 +48,10 @@ sent but error checking is still performed).
     fclose(f);
     
     if (kill(pid, 0) == -1) {
-        if (errno == -ESRCH) {
+        if (errno == ESRCH) {
             /* Nothing with that PID seems to exist
                (or the process is a zombie) */
-        } else if (errno == -EPERM) {
+        } else if (errno == EPERM) {
             /* We don't have permissions to send a signal
                to this process */
         }
