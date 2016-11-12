@@ -8,7 +8,7 @@ permalink:        pretty
 # Setup
 title:            /var/log/andrey
 tagline:          Andrey Yurovsky's blog
-url:              http://yurovsky.github.io
+url:              http://yurovsky.github.io/
 baseurl:          /
 paginate:         5
 author:
