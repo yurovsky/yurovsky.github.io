@@ -19,7 +19,7 @@ When appropriate, we can also use the fstat(2) output to check for:
 # The path
 
 A program taking a path from the outside world, for example through a command
-line argument, should sanitize the path (per CERT [FIOO2-C](https://securecoding.cert.org/confluence/display/c/FIO02-C.+Canonicalize+path+names+originating+from+tainted+sources).  Typically this looks like:
+line argument, should sanitize the path (per CERT [FIOO2-C](https://securecoding.cert.org/confluence/display/c/FIO02-C.+Canonicalize+path+names+originating+from+tainted+sources)).  Typically this looks like:
 
     int main(int argc, char **argv)
     {
