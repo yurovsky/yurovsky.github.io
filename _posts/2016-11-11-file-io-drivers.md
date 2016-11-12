@@ -1,7 +1,7 @@
-----
+---
 layout: post
 title: Opening files (and Linux drivers)
-----
+---
 
 We should be careful (if not downright paranoid) when opening files. Some of
 the recommended checks to perform and best practices include:
