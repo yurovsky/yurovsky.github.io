@@ -6,7 +6,7 @@ title: Opening files (and Linux drivers)
 We should be careful (if not downright paranoid) when opening files. Some of
 the recommended checks to perform and best practices include:
 
- * Using [realpath(3)](http://man7.org/linux/man-pages/man3/realpath.3.html) to product a canonicalized absolute path for us when the path comes from outside.
+ * Using [realpath(3)](http://man7.org/linux/man-pages/man3/realpath.3.html) to produce a canonicalized absolute path for us when the path comes from outside.
  * Setting O\_CLOEXEC to make sure that the file descriptor is not leaked to any child processes we spawn
  * Sanity-checking the file with [fstat(2)](http://man7.org/linux/man-pages/man2/stat.2.html) to make sure it looks like the kind of file we are expecting
 
