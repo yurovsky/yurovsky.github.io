@@ -19,7 +19,7 @@ We then need to read in the PID (we expect the file to contain just a number)
 so we can send that daemon a signal.  This can be as simple as:
 
     pid_t pid;
-    if (fscanf(f, "%d", &pid) == 1) {
+    if (fscanf(f, "%" SCNiMAX, &pid) == 1) {
         /* We probably read a PID */
 
 It's very important that we check the result of fscanf(3) as we only want to
@@ -36,7 +36,7 @@ The data type for a PID is `pid_t` which in the GNU standard C library is an
 sane:
 
     pid_t pid;
-    if (fscanf(f, "%d", &pid) == 1 && pid > 1 && pid != getpid()) {
+    if (fscanf(f, "%" SCNiMAX, &pid) == 1 && pid > 1 && pid != getpid()) {
         /* We probably read a PID and it seems sane */
 
 Depending on the application, we may also use [getppid(2)](http://man7.org/linux/man-pages/man2/getpid.2.html) to make sure the PID is not the one for our own parent process.
