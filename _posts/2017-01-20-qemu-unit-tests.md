@@ -104,8 +104,8 @@ Next, we add a post-build hook:
 
 Now we should see two things:
 
-# buildroot will add our `LOG_COMPILER` variable to the environment when running `configure` in this package
-# having built the package, buildroot will execute `make check` in the package build directory and that in turn will run any tests the package provides with `qemu-arm`
+* buildroot will add our `LOG_COMPILER` variable to the environment when running `configure` in this package
+* having built the package, buildroot will execute `make check` in the package build directory and that in turn will run any tests the package provides with `qemu-arm`
 
 To try this out, build the package:
 
