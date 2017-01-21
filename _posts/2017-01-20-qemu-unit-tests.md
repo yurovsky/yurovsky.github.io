@@ -65,6 +65,14 @@ script via `TEST_RUNNER`.
 
 ## Making sure qemu-arm is available
 
+Enable qemu from the `Host Utilities` menu.  Specifically you want to turn on:
+
+* host qemu
+* Enable Linux user-land emulation
+
+You don't need "Enable system emulation" unless you want to use qemu's machine
+emulator mode.
+
 Packages needing this qemu-based test infrastructure simply need to select
 `BR2_PACKAGE_HOST_QEMU` as a dependency in their `Config.in`. For example,
 
@@ -112,3 +120,12 @@ You can adjust the implementation slightly if that's not what you want and you
 could even introduce a configuration option in your `external/Config.in` menu
 to make tests optional or control whether test failures break the build, as
 usual there is a lot that can be customized with buildroot.
+
+## qemu and kernel version
+
+One more thing: the recipe the builds qemu in buildroot, `package/qemu/qemu.mk`, performs a check comparing the host's kernel version to the target's and will
+only succeed if the host version is greater than or equal to the target's. As
+such, for example, if your host is running the 4.8 kernel and you're building
+the 4.9 kernel for the target, you may find that buildroot refuses to build
+`qemu-arm` for you.  In that case patch or edit the recipe to defeat or remove
+this check (look for `HOST_QEMU_COMPARE_VERSION`).
