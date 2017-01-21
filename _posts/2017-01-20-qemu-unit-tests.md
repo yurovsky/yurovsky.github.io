@@ -4,7 +4,7 @@ title: Testing applications with qemu user mode, automake, and buildroot
 ---
 
 Previously I discussed [using qemu user mode to run cross-compiled binaries](http://yurovsky.github.io/2016/12/14/qemu-user-mode/), now let's put a few things
-together and run unit tests automatically with automake's `make check`. Then
+together and run unit tests automatically with [automake's `make check`](https://www.gnu.org/software/automake/manual/html_node/Tests.html). Then
 we'll integrate everything into a build system (buildroot) and automatically
 run cross-compiled tests as part of the build process. This has a number of
 advantages including:
