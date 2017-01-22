@@ -121,6 +121,24 @@ could even introduce a configuration option in your `external/Config.in` menu
 to make tests optional or control whether test failures break the build, as
 usual there is a lot that can be customized with buildroot.
 
+## Specifying which tests to run in a recipe
+
+We may not want to run every test in the build system. Generally speaking, we
+can run most unit tests but we will need to skip shell-based functional tests.
+`automake` provides a way to do that with the `TESTS` environment variable.
+For example, if we want to run only "test1" and "test2" we can specify them
+like this:
+
+    define example-app-make-check
+    TESTS="test1 test2" $(MAKE) -C $(@D) -e check
+    endef
+    
+    EXAMPLE_APP_POST_BUILD_HOOKS += example-app-make-check
+
+The `-e` argument tells `make` to override variables from the environment and
+we override `TESTS` (the variable calling out which tests to run) with our own
+list. Now `make check` will run just those tests.
+
 ## qemu and kernel version
 
 One more thing: the recipe the builds qemu in buildroot, `package/qemu/qemu.mk`, performs a check comparing the host's kernel version to the target's and will
