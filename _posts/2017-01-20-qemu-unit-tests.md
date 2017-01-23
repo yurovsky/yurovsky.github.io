@@ -82,6 +82,11 @@ Packages needing this qemu-based test infrastructure simply need to select
         help
           This is a our example app.
 
+They also need to call out `host-qemu` as a dependency in their recipe, for
+example for in `example-app.mk`, we could have:
+
+    EXAMPLE_APP_DEPENDENCIES = host-qemu
+
 Now when `example-app` is built, buildroot will build and deploy `qemu-arm`
 (to `host`).
 
