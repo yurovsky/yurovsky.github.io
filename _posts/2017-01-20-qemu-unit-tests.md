@@ -146,9 +146,10 @@ list. Now `make check` will run just those tests.
 
 ## qemu and kernel version
 
-One more thing: the recipe the builds qemu in buildroot, `package/qemu/qemu.mk`, performs a check comparing the host's kernel version to the target's and will
-only succeed if the host version is greater than or equal to the target's. As
-such, for example, if your host is running the 4.8 kernel and you're building
-the 4.9 kernel for the target, you may find that buildroot refuses to build
-`qemu-arm` for you.  In that case patch or edit the recipe to defeat or remove
-this check (look for `HOST_QEMU_COMPARE_VERSION`).
+The recipe the builds qemu in buildroot, `package/qemu/qemu.mk`, performs a check comparing the host's kernel version to the target's and will
+only succeed if the host version is greater than or equal to the target's. You
+may find that buildroot refuses to build `qemu-arm` for you. The reasoning is
+explained in `qemu.mk`: in user mode, qemu translates system calls, so it's assumed that the target does not make calls that don't exist on your host machine.
+
+If this is a problem, you can defeat this check (`HOST_QEMU_COMPARE_VERSION`) at your own risk or upgrade your host machine if possible. Alternately, you can
+use your own qemu rather than buildroot's (for example a distribution package or your own build). Generally speaking, it's unlikely that a unit test is going to make system calls that don't exist on your host machine but of course it depends on what you're testing and anything is possible.
