@@ -139,7 +139,7 @@ once again after reading. For example, consider this very trivial program:
             uint32_t info = 1; /* unmask */
 
             ssize_t nb = write(fd, &info, sizeof(info));
-            if (nb < sizeof(info)) {
+            if (nb != (ssize_t)sizeof(info)) {
                 perror("write");
                 close(fd);
                 exit(EXIT_FAILURE);
@@ -147,7 +147,7 @@ once again after reading. For example, consider this very trivial program:
 
             /* Wait for interrupt */
             nb = read(fd, &info, sizeof(info));
-            if (nb == sizeof(info)) {
+            if (nb == (ssize_t)sizeof(info)) {
                 /* Do something in response to the interrupt. */
                 printf("Interrupt #%u!\n", info);
             }
@@ -184,7 +184,7 @@ A better approach may be to use `poll(3)` on the file descriptor:
             uint32_t info = 1; /* unmask */
 
             ssize_t nb = write(fd, &info, sizeof(info));
-            if (nb < sizeof(info)) {
+            if (nb != (ssize_t)sizeof(info)) {
                 perror("write");
                 close(fd);
                 exit(EXIT_FAILURE);
@@ -198,7 +198,7 @@ A better approach may be to use `poll(3)` on the file descriptor:
             int ret = poll(&fds, 1, -1);
             if (ret >= 1) {
                 nb = read(fd, &info, sizeof(info));
-                if (nb == sizeof(info)) {
+                if (nb == (ssize_t)sizeof(info)) {
                     /* Do something in response to the interrupt. */
                     printf("Interrupt #%u!\n", info);
                 }
