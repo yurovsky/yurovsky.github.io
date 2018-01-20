@@ -12,6 +12,7 @@ Each pin that needs to be sampled and debounced can be represented with a state 
 
 A pin can therefore be represented something like:
 
+```c
     enum pin_state {
             PIN_IDLE       = 0,
             PIN_PRESSING   = 1,
@@ -24,11 +25,13 @@ A pin can therefore be represented something like:
             unsigned char debounce;
             unsigned char debounce_threshold;
     };
+```
 
 I use three states but with the combination of 'state' and 'pressed' and 'debounce' we really have four real states (idle-pressed, idle-released, pressing, and releasing).
 
 At initialization time, the pin structure(s) should be set to zero.  The 'pin' structure should also contain information about the pin to enable a routine to check its value (for example the GPIO port and pin number).  We then poll the pin or pins in a thread or main loop.  For example, to check just one pin:
 
+```c
     static struct pin;
 
     void init(void)
@@ -83,6 +86,7 @@ At initialization time, the pin structure(s) should be set to zero.  The 'pin' s
                   pin.pressed = cur;
            }
     }
+```
 
 If there are multiple pins to check then I would replace the single
 `struct pin` with an array and loop over them.
