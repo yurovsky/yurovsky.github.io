@@ -8,6 +8,7 @@ github_username: yurovsky
 
 # Build settings
 markdown: kramdown
+hilighter: rouge
 theme: minima
 plugins:
   - jekyll-feed
