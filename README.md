@@ -1,2 +1,0 @@
-yurovsky.github.io
-==================

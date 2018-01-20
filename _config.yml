@@ -1,28 +1,25 @@
-# Dependencies
-markdown:         kramdown 
-highlighter:      rouge
-
-# Permalinks
-permalink:        pretty
-
-# Setup
-title:            /var/log/andrey
-tagline:          Andrey Yurovsky's blog
+title: "/var/log/andrey"
 url:              http://yurovsky.github.io/
-baseurl:          /
-paginate:         5
-author:
-  name:           Andrey Yurovsky
-  email:          yurovsky@gmail.com
+description: >- # this means to ignore newlines until "baseurl:"
+  My blog about Linux systems programming, firmware, and cars.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+github_username: yurovsky
 
-# Custom vars
-version:          1.0.0
-github:
-  repo:           https://github.com/poole/poole
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
 
-pages_list:
-  About: '/about'
-  Archive: '/archive'
-  Feed: '/atom.xml'
-
-theme: jekyll-theme-slate
+# Exclude from processing.
+# The following items will not be processed, by default. Create a custom list
+# to override the default setting.
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
