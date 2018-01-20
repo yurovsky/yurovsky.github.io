@@ -120,42 +120,44 @@ The interrupt starts masked and the user must explicitly unmask it. This is
 done by writing a 1 (again, four bytes) to the device. The interrupt is masked
 once again after reading. For example, consider this very trivial program:
 
-    #include <sys/types.h>
-    #include <sys/stat.h>
-    #include <fcntl.h>
-    #include <stdio.h>
-    #include <stdlib.h>
-    #include <stdint.h>
+```c
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 
-    int main(void)
-    {
-        int fd = open("/dev/uio0", O_RDWR);
-        if (fd < 0) {
-            perror("open");
+int main(void)
+{
+    int fd = open("/dev/uio0", O_RDWR);
+    if (fd < 0) {
+        perror("open");
+        exit(EXIT_FAILURE);
+    }
+
+    while (1) { /* some condition here */
+        uint32_t info = 1; /* unmask */
+
+        ssize_t nb = write(fd, &info, sizeof(info));
+        if (nb != (ssize_t)sizeof(info)) {
+            perror("write");
+            close(fd);
             exit(EXIT_FAILURE);
         }
 
-        while (1) { /* some condition here */
-            uint32_t info = 1; /* unmask */
-
-            ssize_t nb = write(fd, &info, sizeof(info));
-            if (nb != (ssize_t)sizeof(info)) {
-                perror("write");
-                close(fd);
-                exit(EXIT_FAILURE);
-            }
-
-            /* Wait for interrupt */
-            nb = read(fd, &info, sizeof(info));
-            if (nb == (ssize_t)sizeof(info)) {
-                /* Do something in response to the interrupt. */
-                printf("Interrupt #%u!\n", info);
-            }
+        /* Wait for interrupt */
+        nb = read(fd, &info, sizeof(info));
+        if (nb == (ssize_t)sizeof(info)) {
+            /* Do something in response to the interrupt. */
+            printf("Interrupt #%u!\n", info);
         }
-
-        close(fd);
-        exit(EXIT_SUCCESS);
     }
+
+    close(fd);
+    exit(EXIT_SUCCESS);
+}
+```
 
 The value that you will read back is the interrupt count (a running counter of
 the number of interrupts generated). You can of course open the device in
@@ -165,53 +167,55 @@ non-blocking mode (with `O_NONBLOCK`) if needed.
 
 A better approach may be to use `poll(3)` on the file descriptor:
 
-    #include <stdio.h>
-    #include <stdint.h>
-    #include <stdlib.h>
-    #include <poll.h>
-    #include <fcntl.h>
-    #include <errno.h>
+```c
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <poll.h>
+#include <fcntl.h>
+#include <errno.h>
 
-    int main(void)
-    {
-        int fd = open("/dev/uio0", O_RDWR);
-        if (fd < 0) {
-            perror("open");
+int main(void)
+{
+    int fd = open("/dev/uio0", O_RDWR);
+    if (fd < 0) {
+        perror("open");
+        exit(EXIT_FAILURE);
+    }
+
+    while (1) {
+        uint32_t info = 1; /* unmask */
+
+        ssize_t nb = write(fd, &info, sizeof(info));
+        if (nb != (ssize_t)sizeof(info)) {
+            perror("write");
+            close(fd);
             exit(EXIT_FAILURE);
         }
 
-        while (1) {
-            uint32_t info = 1; /* unmask */
+        struct pollfd fds = {
+            .fd = fd,
+            .events = POLLIN,
+        };
 
-            ssize_t nb = write(fd, &info, sizeof(info));
-            if (nb != (ssize_t)sizeof(info)) {
-                perror("write");
-                close(fd);
-                exit(EXIT_FAILURE);
+        int ret = poll(&fds, 1, -1);
+        if (ret >= 1) {
+            nb = read(fd, &info, sizeof(info));
+            if (nb == (ssize_t)sizeof(info)) {
+                /* Do something in response to the interrupt. */
+                printf("Interrupt #%u!\n", info);
             }
-
-            struct pollfd fds = {
-                .fd = fd,
-                .events = POLLIN,
-            };
-
-            int ret = poll(&fds, 1, -1);
-            if (ret >= 1) {
-                nb = read(fd, &info, sizeof(info));
-                if (nb == (ssize_t)sizeof(info)) {
-                    /* Do something in response to the interrupt. */
-                    printf("Interrupt #%u!\n", info);
-                }
-            } else {
-                perror("poll()");
-                close(fd);
-                exit(EXIT_FAILURE);
-            }
+        } else {
+            perror("poll()");
+            close(fd);
+            exit(EXIT_FAILURE);
         }
-
-        close(fd);
-        exit(EXIT_SUCCESS);
     }
+
+    close(fd);
+    exit(EXIT_SUCCESS);
+}
+```
 
 passing -1 as the third argument to `poll()` requests polling without a timeout
 (`poll()` would return 0 in a timeout case otherwise). The return value is

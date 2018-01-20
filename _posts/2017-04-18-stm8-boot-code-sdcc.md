@@ -29,9 +29,11 @@ shared between the UBC and the application.
 
 In SDCC, interrupt vectors look like:
 
-    void usart1_rx_irq(void) __interrupt(28)
-    {
-    }
+```c
+void usart1_rx_irq(void) __interrupt(28)
+{
+}
+```
 
 Interrupt vectors must be implemented in the same translation unit (file) that
 implements `main()` and the `__interrupt` attribute is used to specify their
@@ -51,10 +53,12 @@ boot code does not need to do anything with interrupt 28, we could simply
 redirect to the application firmware's implementation of that interrupt handler.
 That is, in the UBC we would have something like:
 
-    void usart1_rx_irq(void) __interrupt(28)
-    {
-        __asm jpf 0x8478 __endasm;
-    }
+```c
+void usart1_rx_irq(void) __interrupt(28)
+{
+    __asm jpf 0x8478 __endasm;
+}
+```
 
 To connect the real interrupt 28 to the redirected handler in the application's
 table. The application's implementation of interrupt 28 would do whatever it
@@ -129,9 +133,11 @@ data that we wish to write.
 
 The STM8 program flash is unlocked with the following sequence:
 
-    FLASH->PUKR = FLASH_RASS_KEY1;
-    FLASH->PUKR = FLASH_RASS_KEY2;
-    while (!(FLASH->IAPSR & FLASH_FLAG_PUL));
+```c
+FLASH->PUKR = FLASH_RASS_KEY1;
+FLASH->PUKR = FLASH_RASS_KEY2;
+while (!(FLASH->IAPSR & FLASH_FLAG_PUL));
+```
 
 The Flash can be erased and written after that.
 
@@ -152,7 +158,9 @@ I decided to work around this limitation by taking my own hacky approach:
 
 We need a location for the "array" in RAM to jump to. SDCC provides an `__at` attribute to enable us to place a variable at a set location. The static array will have an underscore in front of its name (by my convention) so I decided on:
 
-    __at(0x400) char _flash_write_block_ram[sizeof(_flash_write_block)];
+```c
+__at(0x400) char _flash_write_block_ram[sizeof(_flash_write_block)];
+```
 
 This function needs to know two things:
 
@@ -162,22 +170,29 @@ This function needs to know two things:
 The data to write must also be in RAM so I selected a fixed location in RAM to
 hold that block using SDCC's `__at` attribute:
 
-    __at(0x380) char data[128];
+```c
+__at(0x380) char data[128];
+```
 
 I decided to make the destination a "block number" where 0 is the first block of application firmware. My application starts after the UBC, for example at `0x8400` so block 0 is address `0x8400` and block 1 is `0x8480` (the next block).
 I can push this to the stack (as an argument to `flash_write_block()` or, since the data is in RAM anyway, we can make a RAM location to store this as well:
 
-    __at(0x37C) uint32_t block;
-
+```c
+__at(0x37C) uint32_t block;
+```
 In the bootloader's `main()`, we simply copy from Flash to RAM:
 
-    memcpy((void *)0x400, _flash_write_block_ram, sizeof(_flash_write_block));
+```c
+memcpy((void *)0x400, _flash_write_block_ram, sizeof(_flash_write_block));
+```
 
 then, whenever we need to call `flash_write_block()` in RAM, we simply write
 the data block and block number to the defined locations and call. For example,
 
-    block = 0; /* Write to the 0th block of the application */
-    __asm call 0x400; __endasm
+```c
+block = 0; /* Write to the 0th block of the application */
+__asm call 0x400; __endasm
+```
 
 ...and whatever is in `data` will be written to `0x8400`.
 
@@ -196,18 +211,20 @@ The data to write is at arbitrary RAM location `0x380` and the block number is
 at `0x37C`. We also need a loop counter for later (and SDCC does not support
 variable declarations mixed with code).
 
-    #include "stm8l15x.h" 
+```c
+#include "stm8l15x.h" 
 
-    #define BOOT_SIZE   0x400 /* This must match the UBC setting as well */
-    #define APP_BASE    (0x8000 + BOOT_SIZE)
+#define BOOT_SIZE   0x400 /* This must match the UBC setting as well */
+#define APP_BASE    (0x8000 + BOOT_SIZE)
 
-    void flash_write_block(void)
-    {
-        unsigned i;
-        uint32_t block = *(uint32_t *)0x37C;
-        uint32_t addr = APP_BASE + (FLASH_BLOCK_SIZE * block);
-        uint8_t *dest = (uint8_t *)(addr);
-        uint8_t *data = (uint8_t *)0x380;
+void flash_write_block(void)
+{
+    unsigned i;
+    uint32_t block = *(uint32_t *)0x37C;
+    uint32_t addr = APP_BASE + (FLASH_BLOCK_SIZE * block);
+    uint8_t *dest = (uint8_t *)(addr);
+    uint8_t *data = (uint8_t *)0x380;
+```
 
 We now know where to write so let's start by erasing the block. This is done
 by requesting an erase operation and then writing `0` to the first word in the

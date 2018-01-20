@@ -13,18 +13,18 @@ Each pin that needs to be sampled and debounced can be represented with a state 
 A pin can therefore be represented something like:
 
 ```c
-    enum pin_state {
-            PIN_IDLE       = 0,
-            PIN_PRESSING   = 1,
-            PIN_RELEASING  = 2,
-    };
-    
-    struct pin {
-            enum pin_state state;
-            char pressed;
-            unsigned char debounce;
-            unsigned char debounce_threshold;
-    };
+enum pin_state {
+        PIN_IDLE       = 0,
+        PIN_PRESSING   = 1,
+        PIN_RELEASING  = 2,
+};
+
+struct pin {
+        enum pin_state state;
+        char pressed;
+        unsigned char debounce;
+        unsigned char debounce_threshold;
+};
 ```
 
 I use three states but with the combination of 'state' and 'pressed' and 'debounce' we really have four real states (idle-pressed, idle-released, pressing, and releasing).
@@ -32,60 +32,60 @@ I use three states but with the combination of 'state' and 'pressed' and 'deboun
 At initialization time, the pin structure(s) should be set to zero.  The 'pin' structure should also contain information about the pin to enable a routine to check its value (for example the GPIO port and pin number).  We then poll the pin or pins in a thread or main loop.  For example, to check just one pin:
 
 ```c
-    static struct pin;
+static struct pin;
 
-    void init(void)
-    {
-            /* (if needed) */
-            memset(&pin, 0, sizeof(pin));
-            
-            /* pick some reasonable threshold, this is a
-               factor of your circuit and polling
-               frequency */
-            pin.debounce_threshold = 10;
-    }
+void init(void)
+{
+        /* (if needed) */
+        memset(&pin, 0, sizeof(pin));
+        
+        /* pick some reasonable threshold, this is a
+           factor of your circuit and polling
+           frequency */
+        pin.debounce_threshold = 10;
+}
 
-    void check_pins(void)
-    {
-            /* invert this if the pin is active-low, as is common
-               for buttons, we treat a '1' as 'active' */
-            char cur = gpio_get_pin_value();
+void check_pins(void)
+{
+        /* invert this if the pin is active-low, as is common
+           for buttons, we treat a '1' as 'active' */
+        char cur = gpio_get_pin_value();
 
-            switch (pin.state) {
-                  case PIN_IDLE:
-                         if (cur != pin.pressed) {
-                                pin.state = cur ?
-                                        PIN_PRESSING : PIN_RELEASING;
-                         }
-                         break;
-                  case PIN_PRESSING:
-                         if (cur) {
-                                pin.debounce++;
-                         } else {
-                                pin.debounce = 0;
-                                pin.state = PIN_IDLE;
-                         }
-                         break;
-                  case PIN_RELEASING:
-                         if (cur) {
-                                pin.debounce = 0;
-                                pin.state = PIN_IDLE;
-                         } else {
-                                pin.debounce++;
-                         }
-                         break;
-           }
+        switch (pin.state) {
+              case PIN_IDLE:
+                     if (cur != pin.pressed) {
+                            pin.state = cur ?
+                                    PIN_PRESSING : PIN_RELEASING;
+                     }
+                     break;
+              case PIN_PRESSING:
+                     if (cur) {
+                            pin.debounce++;
+                     } else {
+                            pin.debounce = 0;
+                            pin.state = PIN_IDLE;
+                     }
+                     break;
+              case PIN_RELEASING:
+                     if (cur) {
+                            pin.debounce = 0;
+                            pin.state = PIN_IDLE;
+                     } else {
+                            pin.debounce++;
+                     }
+                     break;
+       }
 
-           if (pin.state > PIN_IDLE &&
-                          pin.debounce > pin.debounce_threshold) {
-                  /* report the pin press or release */
-                  report_pin(cur);
-                  /* and now the pin is idle */
-                  pin.state = PIN_IDLE;
-                  pin.debounce = 0;
-                  pin.pressed = cur;
-           }
-    }
+       if (pin.state > PIN_IDLE &&
+                      pin.debounce > pin.debounce_threshold) {
+              /* report the pin press or release */
+              report_pin(cur);
+              /* and now the pin is idle */
+              pin.state = PIN_IDLE;
+              pin.debounce = 0;
+              pin.pressed = cur;
+       }
+}
 ```
 
 If there are multiple pins to check then I would replace the single

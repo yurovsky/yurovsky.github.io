@@ -43,13 +43,15 @@ Unit tests run with qemu user mode would ideally be real testable units since we
 
 qemu user mode can act as a GDB server, enabling us to debug our cross-compiled program.  Consider the usual trivial program:
 
-    #include <stdio.h>
+```c
+#include <stdio.h>
 
-    int main(void)
-    {
-        printf("Hello, world!\n");
-        return 0;
-    }
+int main(void)
+{
+    printf("Hello, world!\n");
+    return 0;
+}
+```
 
 We can compile this with debug symbols via our toolchain, for example:
 
